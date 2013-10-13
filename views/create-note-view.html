@@ -1,0 +1,63 @@
+﻿<div id="create-note-view" data-role="view" data-id="create-note-view"
+    data-layout="main-layout" data-title="Business"
+    data-transition="slide"
+    data-after-show="app.createNote.init"
+    data-reload="true">
+    <fieldset>
+        <legend>To Do</legend>
+        <span class="validationError"></span>
+        <lable for="title-fld">Title</lable>
+        <br />
+        <input data-bind="value: title" type="text" name="title" value="" placeholder="Title" id="title-fld" class="k-textbox" />
+        <br />
+        <lable for="description-fld">Description</lable>
+        <br />
+        <textarea name="description" id="description-fld" rows="5" data-bind="value: description" class="k-textbox"></textarea>
+        <br />
+        <a data-role="button" id="photo-btn">Take photo</a>
+        <br />
+      <!--  <a data-role="button" id="video-btn">Take video</a>
+        <br />-->
+        <a data-role="button" data-bind="events: { click: createButton }" class="k-button-expand">Create</a>
+    </fieldset>
+    <script>
+        document.addEventListener("deviceready", function () {
+         
+            $("#photo-btn").on("click", function () {
+                navigator.camera.getPicture(onSuccess, onFail, {
+                    destinationType: Camera.DestinationType.NATIVE_URI
+                });
+            })
+
+            // capture callback
+            var captureSuccess = function (mediaFiles) {
+                var i, path, len;
+                for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+                    path = mediaFiles[i].fullPath;
+                    // do something interesting with the file
+                }
+                localStorage.setItem("video", path);
+            };
+
+            // capture error callback
+            var captureError = function (error) {
+                navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+            };
+
+            // start video capture
+            $("#video-btn").on("click", function () {
+                navigator.device.capture.captureVideo(captureSuccess, captureError);
+            });
+
+
+            function onSuccess(imageURI) {
+                localStorage.setItem("image", imageURI);
+            }
+
+            function onFail(message) {
+                alert('Failed because: ' + message);
+            }
+        });
+
+    </script>
+</div>

@@ -1,0 +1,15 @@
+﻿<div id="single-todo-view" data-role="view" data-id="single-todo-view"
+    data-layout="main-layout" data-title="Business"
+    data-transition="slide"
+    data-reload="true"
+    data-after-show="app.singleTodo.init">
+
+    <h3 data-bind="text: title"></h3>
+    <h5 data-bind="text: date"></h5>
+    <hr />
+    <p data-bind="text: description"></p>
+    Done: <span data-bind="text: isDone"></span>
+    <br />
+    <a data-role="button" data-bind="events: { click: doneButton }">Done</a>
+    <a data-role="button" data-bind="events: { click: deleteButton }">Delete</a>
+</div>

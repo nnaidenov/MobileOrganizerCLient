@@ -1,0 +1,12 @@
+﻿<div id="login-register-view" data-role="view" data-id="login-register-view" data-layout="main-layout"
+    data-transition="slide" data-after-show="app.auth.init" data-reload="true">
+    <span class="validationError"></span>
+    <!--<lable for="username-input">Username: </lable>-->
+    <input type="text" name="email" id="username-input" value="" placeholder="Email" data-bind="value: email" />
+     <br />
+    <!--<lable for="password-input">Password: </lable>-->
+    <input type="text" name="password" id="password-input" value="" placeholder="Password" data-bind="value: password" />
+    <br />
+    <a data-role="button" data-bind="events: { click: loginButton }">Login</a>
+    <a data-role="button" data-bind="events: { click: registerButton }">Register</a>
+</div>

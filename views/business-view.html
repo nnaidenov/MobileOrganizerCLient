@@ -1,0 +1,100 @@
+﻿<div id="business-view" data-role="view" data-id="business-view" data-layout="main-layout" data-title="Business"
+    data-transition="slide" data-reload="true">
+    <div id="calendar"></div>
+    <button id="todo-btn" data-role="button" class="k-button-expand">Create To Do</button>
+    <button id="event-btn" data-role="button" class="k-button-expand">Create event</button>
+    <button id="note-btn" data-role="button" class="k-button-expand">Create note</button>
+    <script>
+        app.application.pane.loader.show();
+        var persister = new dataPersister.get("http://mobileorganizer.apphb.com/api/");
+        persister.stuffes.all()
+        .then(function (data) {
+            app.application.pane.loader.hide();
+            var events = [];
+            var today = new Date();
+            for (var i in data) {
+                var date = data[i];
+                var event = +new Date(today.getFullYear() + date.Year, today.getMonth() + date.Mount, date.Day);
+                events.push(event);
+            }
+
+            $("#calendar").kendoCalendar({
+                change: onChange,
+                value: today,
+                dates: events,
+                month: {
+                    content: '# if ($.inArray(+data.date, data.dates) != -1) { #' +
+                                    '<div class="' +
+                                       '# if (data.value < 10) { #' +
+                                           "exhibition" +
+                                       '# } else if ( data.value < 20 ) { #' +
+                                           "party" +
+                                       '# } else { #' +
+                                           "cocktail" +
+                                       '# } #' +
+                                    '">#= data.value #</div>' +
+                                 '# } else { #' +
+                                 '#= data.value #' +
+                                 '# } #'
+                },
+                footer: false
+            });
+        });
+
+        function onChange(e) {
+            var calendar = $("#calendar").data("kendoCalendar").current();
+            app.application.navigate("views/stuffes-view.html#stuffes-view?date=" + calendar);
+        }
+
+        $("#todo-btn").on("click", function () {
+            app.application.navigate("views/create-todo-view.html#create-todo-view");
+        });
+
+        $("#note-btn").on("click", function () {
+            app.application.navigate("views/create-note-view.html#create-note-view");
+        });
+
+        $("#event-btn").on("click", function () {
+            app.application.navigate("views/create-event-view.html#create-event-view");
+        });
+    </script>
+    <style>
+        .exhibition, .party, .cocktail {
+            width: 25px;
+            height: 25px;
+            margin: auto;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 50%;
+            line-height: 25px;
+            text-align: center;
+        }
+
+        .exhibition {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .party {
+            background-color: #70c114;
+        }
+
+        .cocktail {
+            background-color: #00a1e8;
+        }
+
+        #calendar .k-state-selected,
+        #calendar .k-state-focused {
+            background: transparent;
+            border-color: transparent;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        #calendar .k-content .k-state-hover,
+        #calendar .k-content .k-state-focused {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</div>

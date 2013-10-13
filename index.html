@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+  
+
+    <script src="cordova.js"></script>
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.web.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
+
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.black.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+
+      <link href="styles/main.css" rel="stylesheet" />
+
+    <script src="scripts/class.js"></script>
+    <script src="scripts/CryptoJS.js"></script>
+    <script src="scripts/rsvp.js"></script>
+    <script src="scripts/requester.js"></script>
+    <script src="scripts/data.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/create-todo-view-model.js"></script>
+    <script src="scripts/login-register-view-model.js"></script>
+    <script src="scripts/create-note-view-model.js"></script>
+    <script src="scripts/create-event-view-model.js"></script>
+    <script src="scripts/single-todo-view-model.js"></script>
+    <script src="scripts/single-event-view-model.js"></script>
+    <script src="scripts/single-note-view-model.js"></script>
+    <!--<script src="scripts/connection.js"></script>-->
+</head>
+<body>
+
+    <div id="main-layout" data-role="layout" data-id="main-layout">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="title-view">Organizer</span>
+                <a data-align="right" data-role="button" class="km-button" id="logout-btn">Logout</a>
+            </div>
+        </header>
+
+        <div data-role="footer">
+            <div data-role="tabstrip">
+                <a href="#home-view" data-icon="home">Home </a>
+                <a href="views/only-events-view.html#only-events-view" data-icon="about">Events </a>
+                <a href="views/only-todos-view.html#only-todos-view" data-icon="favorites">ToDos </a>
+                <a href="views/only-notes-view.html#only-notes-view" data-icon="bookmarks">Notes </a>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("deviceready", function () {
+                $("#logout-btn").on("click", function () {
+                    var persister = new dataPersister.get("http://mobileorganizer.apphb.com/api/");
+
+                    persister.users.logout()
+                    .then(function () {
+                        app.application.navigate("#home-view");
+                    });
+                });
+            });
+        </script>
+    </div>
+
+    <div id="home-view" data-role="view" data-id="home-view" data-layout="main-layout" data-title="Home"
+        data-transition="slide" data-reload="true">
+        <button id="business-btn" data-role="button" class="k-button-expand">Business</button>
+
+        <script>
+            document.addEventListener("deviceready", function () {
+                $("#business-btn").on("click", function () {
+                    app.application.navigate("views/business-view.html#business-view");
+                });
+
+
+                if (localStorage.getItem("sessionKey") == null || localStorage.getItem("sessionKey").length < 0) {
+                    app.application.navigate("views/login-register-view.html#login-register-view");
+                }
+            });
+        </script>
+    </div>
+
+    <script>
+        document.addEventListener("deviceready", function () {
+            if (navigator.connection.type == "none") {
+                alert("No network connection!");
+            }
+
+            var connectionCounter = 0;
+
+            setInterval(function () {
+                if (navigator.connection.type == "none") {
+                    if (connectionCounter >= 10) {
+                        alert("No network connection!");
+                        connectionCounter = 0;
+                    } else {
+                        connectionCounter++;
+                    }
+                }
+                else {
+                    connectionCounter = 0;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+

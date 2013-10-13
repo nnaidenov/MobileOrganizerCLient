@@ -1,0 +1,15 @@
+﻿<div id="single-event-view" data-role="view" data-id="single-event-view"
+    data-layout="main-layout" data-title="Business"
+    data-transition="slide"
+    data-reload="true"
+    data-after-show="app.singleEvent.init">
+
+    <h3 data-bind="text: title"></h3>
+    <h5>
+        <span data-bind="text: startDate"></span>
+          / 
+        <span data-bind="text: endDate"></span></h5>
+    <hr />
+    <p data-bind="text: description"></p>
+     <a data-role="button" data-bind="events: { click: deleteButton }">Delete</a>
+</div>

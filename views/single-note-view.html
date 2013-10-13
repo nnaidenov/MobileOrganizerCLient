@@ -1,0 +1,12 @@
+﻿<div id="single-note-view" data-role="view" data-id="single-note-view"
+    data-layout="main-layout" data-title="Business"
+    data-transition="slide"
+    data-reload="true"
+    data-after-show="app.singleNote.init">
+
+    <h3 data-bind="text: title"></h3>
+    <hr />
+    <p data-bind="text: description"></p>
+    <img data-bind="attr: { src: imageUrl }" />
+    <a data-role="button" data-bind="events: { click: deleteButton }">Delete</a>
+</div>
